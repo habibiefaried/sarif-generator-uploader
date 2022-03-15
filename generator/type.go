@@ -33,7 +33,8 @@ type ShortDescSARIF struct {
 }
 
 type PropertySARIF struct {
-	Category string `json:"category"`
+	Category         string `json:"category"`
+	SecuritySeverity string `json:"security-severity"`
 }
 
 type ResultSARIF struct {

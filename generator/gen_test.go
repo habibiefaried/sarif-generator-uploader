@@ -9,12 +9,12 @@ func TestStructure(t *testing.T) {
 	m := Init()
 	m.AddDriverName("BurpSuiteBisa15")
 
-	err := m.AddRule("no-unused-vars", "disallow unused variables", "-", "Variables")
+	err := m.AddRule("no-unused-vars", "disallow unused variables", "-", "Variables", "0.0")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	err = m.AddRule("sql-injection", "SQL Injection", "-", "Variables")
+	err = m.AddRule("sql-injection", "SQL Injection", "-", "Variables", "9.8")
 	if err != nil {
 		t.Fatal(err)
 	}

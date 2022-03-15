@@ -20,13 +20,13 @@ func (m *MainSARIF) AddDriverName(s string) {
 	m.Runs[0].Tool.Driver.Name = s
 }
 
-func (m *MainSARIF) AddRule(id, shortDescription, helpUri, category string) error {
+func (m *MainSARIF) AddRule(id, shortDescription, helpUri, category, severity string) error {
 	if !m.IsRuleIDExists[id] {
 		r := RuleSARIF{
 			ID:               id,
 			ShortDescription: ShortDescSARIF{Text: shortDescription},
 			HelpURI:          helpUri,
-			Properties:       PropertySARIF{Category: category},
+			Properties:       PropertySARIF{Category: category, SecuritySeverity: severity},
 		}
 		m.Runs[0].Tool.Driver.Rules = append(m.Runs[0].Tool.Driver.Rules, r)
 		m.IsRuleIDExists[id] = true
