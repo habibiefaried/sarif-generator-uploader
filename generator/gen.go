@@ -36,6 +36,33 @@ func (m *MainSARIF) AddRule(id, shortDescription, helpUri, category string) erro
 	}
 }
 
+func (m *MainSARIF) AddResults(RuleID, level, message string, locations []string) error {
+	if !m.IsRuleIDExists[RuleID] {
+		return errors.New("Rule ID doesn't exist")
+	} else {
+		ls := []LocationSARIF{}
+		for _, v := range locations {
+			ls = append(ls, LocationSARIF{
+				PhysicalLocation: PhysicalLocationSARIF{
+					ArtifactLocation: ArtifactLocationSARIF{
+						URI: v,
+					},
+				},
+			})
+		}
+
+		m.Runs[0].Results = append(m.Runs[0].Results, ResultSARIF{
+			Level: level,
+			Message: MessageSARIF{
+				Text: message,
+			},
+			Locations: ls,
+			RuleID:    RuleID,
+		})
+		return nil
+	}
+}
+
 func (m *MainSARIF) GetJSON() (string, error) {
 	b, err := json.MarshalIndent(m, "", "    ")
 	return string(b), err
