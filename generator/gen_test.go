@@ -1,11 +1,10 @@
 package generator
 
 import (
-	"fmt"
 	"testing"
 )
 
-func TestStructure(t *testing.T) {
+func TestStructure1(t *testing.T) {
 	m := Init()
 	m.AddDriverName("BurpSuiteBisa15")
 
@@ -41,9 +40,39 @@ func TestStructure(t *testing.T) {
 		t.Fatal("The rules should be 2")
 	}
 
-	j, err := m.GetJSON()
+	_, err = m.GetJSON()
 	if err != nil {
 		t.Fatal(err)
 	}
-	fmt.Println(j)
+}
+
+func TestStructure2(t *testing.T) {
+	m := Init()
+	m.AddDriverName("BurpSuiteBisa15")
+
+	err := m.AddRule("no-unused-vars", "disallow unused variables", "-", "Variables", "0.0")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = m.AddResults("no-unused-vars", "warning", "'x' is assigned a value but never used.", []string{"/http/api/user/2"})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	err = m.AddResults("xss-injection", "error", "SQL Injection in this URL", []string{"/http/api/sqli/14"})
+	if err == nil {
+		t.Fatal("Must be error here!")
+	} else {
+		t.Log(err)
+	}
+
+	if len(m.Runs[0].Results) != 1 {
+		t.Fatal("The rules should be 1")
+	}
+
+	_, err = m.GetJSON()
+	if err != nil {
+		t.Fatal(err)
+	}
 }
